@@ -180,5 +180,3 @@ http://127.0.0.1:5000
 ## 📜 License
 
 I used the MIT License to allow free use, modification, and distribution while keeping liability protection.
-
-Just tell me — happy to help 👌
