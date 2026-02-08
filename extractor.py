@@ -13,13 +13,31 @@ def extract_text_from_pdf(pdf_path):
 
 def extract_fields(text):
     patterns = {
-        "Policy Number": r"POLICY NUMBER[:\s]*([A-Z0-9]+)",
-        "Policyholder Name": r"NAME OF INSURED.*?:\s*(.+)",
-        "Date of Loss": r"DATE OF LOSS.*?:\s*([\d/]+)",
-        "Location": r"LOCATION OF LOSS.*?:\s*(.+)",
-        "Description": r"DESCRIPTION OF ACCIDENT.*?:\s*(.+)",
-        "Estimated Damage": r"ESTIMATE AMOUNT[:\s]*\$?([\d,]+)",
-        "Claim Type": r"(injury|vehicle|property)"
+        # Policy Information
+        "Policy Number": r"Policy Number[:\s]*([A-Z0-9-]+)",
+        "Policyholder Name": r"Policyholder Name[:\s]*(.+)",
+        "Effective Dates": r"Effective Dates[:\s]*([\d/]+\s*-\s*[\d/]+)",
+
+        # Incident Information
+        "Date": r"Date of Loss[:\s]*([\d/]+)",
+        "Time": r"Time of Loss[:\s]*([\d:]+)",
+        "Location": r"Location of Loss[:\s]*(.+)",
+        "Description": r"Description[:\s]*(.+)",
+
+        # Involved Parties
+        "Claimant": r"Claimant[:\s]*(.+)",
+        "Third Parties": r"Third Parties[:\s]*(.+)",
+        "Contact Details": r"Contact Details[:\s]*(.+)",
+
+        # Asset Details
+        "Asset Type": r"Asset Type[:\s]*(.+)",
+        "Asset ID": r"Asset ID[:\s]*(.+)",
+        "Estimated Damage": r"Estimated Damage[:\s]*\$?([\d,]+)",
+
+        # Other Mandatory Fields
+        "Claim Type": r"Claim Type[:\s]*(injury|vehicle|property)",
+        "Attachments": r"Attachments[:\s]*(.+)",
+        "Initial Estimate": r"Initial Estimate[:\s]*\$?([\d,]+)"
     }
 
     extracted = {}
@@ -27,7 +45,7 @@ def extract_fields(text):
         match = re.search(pattern, text, re.IGNORECASE)
         if match:
             value = match.group(1).strip()
-            if field == "Estimated Damage":
+            if field in ["Estimated Damage", "Initial Estimate"]:
                 value = int(value.replace(",", ""))
             extracted[field] = value
 

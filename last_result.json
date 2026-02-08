@@ -1,0 +1,22 @@
+{
+    "extractedFields": {
+        "Policy Number": "AUTO99999",
+        "Policyholder Name": "Ravi Kumar",
+        "Effective Dates": "01/01/2025 - 01/01/2026",
+        "Date": "03/01/2026",
+        "Time": "23:45",
+        "Location": "Hyderabad",
+        "Description": "Accident appears staged and inconsistent with damage pattern. Possible fraud.",
+        "Claimant": "Ravi Kumar",
+        "Contact Details": "ravi@email.com | 9876543210",
+        "Asset Type": "Vehicle",
+        "Asset ID": "TS09CD4321",
+        "Estimated Damage": 40000,
+        "Claim Type": "vehicle",
+        "Attachments": "Photos",
+        "Initial Estimate": 40000
+    },
+    "missingFields": [],
+    "recommendedRoute": "Investigation Flag",
+    "reasoning": "Claim description contains keywords indicating potential fraud."
+}

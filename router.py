@@ -1,31 +1,37 @@
-def route_claim(extracted, missing, notes):
+def route_claim(extracted, missing_fields, analysis_notes=None):
     description = extracted.get("Description", "").lower()
+    claim_type = extracted.get("Claim Type", "").lower()
+    estimated_damage = extracted.get("Estimated Damage", 0)
 
-    if missing:
+    # Rule 1: Missing mandatory fields
+    if missing_fields:
         return (
-            "Manual Review",
-            "Claim routed to manual review because mandatory fields are missing."
+            "Manual review",
+            "One or more mandatory fields are missing."
         )
 
-    if any(word in description for word in ["fraud", "staged", "inconsistent"]):
+    # Rule 2: Fraud keywords
+    if any(word in description for word in ["fraud", "inconsistent", "staged"]):
         return (
             "Investigation Flag",
             "Claim description contains keywords indicating potential fraud."
         )
 
-    if extracted.get("Claim Type") == "injury":
+    # Rule 3: Injury claims
+    if claim_type == "injury":
         return (
             "Specialist Queue",
-            "Injury-related claims require specialist assessment."
+            "Injury-related claims require specialist handling."
         )
 
-    if extracted.get("Estimated Damage", 0) < 25000:
+    # Rule 4: Fast-track
+    if estimated_damage < 25000:
         return (
             "Fast-track",
-            "Estimated damage is below 25,000, eligible for fast-track processing."
+            "Estimated damage is below 25,000."
         )
 
     return (
-        "Manual Review",
-        "Claim does not meet fast-track criteria and requires human verification."
+        "Manual review",
+        "Claim does not meet fast-track conditions."
     )

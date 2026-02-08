@@ -1,27 +1,24 @@
 MANDATORY_FIELDS = [
     "Policy Number",
     "Policyholder Name",
-    "Date of Loss",
+    "Effective Dates",
+    "Date",
+    "Time",
     "Location",
     "Description",
+    "Claimant",
+    "Contact Details",
+    "Asset Type",
+    "Asset ID",
+    "Estimated Damage",
     "Claim Type",
-    "Estimated Damage"
+    "Attachments",
+    "Initial Estimate"
 ]
 
-def analyze_fields(extracted):
+def find_missing_fields(extracted_fields):
     missing = []
-    analysis_notes = []
-
     for field in MANDATORY_FIELDS:
-        if field not in extracted:
+        if field not in extracted_fields:
             missing.append(field)
-
-    if "Estimated Damage" in extracted:
-        if extracted["Estimated Damage"] <= 0:
-            analysis_notes.append("Estimated damage value is invalid.")
-
-    if "Description" in extracted:
-        if len(extracted["Description"]) < 15:
-            analysis_notes.append("Accident description is too short.")
-
-    return missing, analysis_notes
+    return missing
